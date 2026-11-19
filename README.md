@@ -51,6 +51,8 @@ docs/
 
 Open `O2Tils.sln` in Visual Studio 2022. Windows x64 is the main target; x86 builds too. The project builds `main.cpp`, a small demo of the utilities.
 
+O2Tils builds as C++17, like the other o2 libraries. A program that compiles O2Tils's sources, directly or through PackageUpper, must build as C++17 too.
+
 ## Contributing
 
 `CLAUDE.md` describes the coding style, layout and workflow. In short: one feature per branch and pull request, header changes are proposed with their docs before they're implemented, and a utility belongs here only when more than one library needs it.

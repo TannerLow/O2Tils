@@ -27,6 +27,8 @@ Avoid everything else by default, especially features that run or decide things 
 
 If a C++ feature seems worth using and isn't listed as fine, ask first.
 
+The project builds as C++17, like every o2 library. That decides which features the compiler accepts, not which are fine to use: the lists above still decide that. A program compiles O2Tils's sources with its own settings, so it must build as C++17 too.
+
 ## Contain C++ usage
 
 Keep C++ features from spreading. Using one in one place must not force the rest of the project, or the libraries that depend on O2Tils, to use C++ features too.
