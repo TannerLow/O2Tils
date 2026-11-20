@@ -21,9 +21,15 @@
     <ClCompile Include="src\o2\utils\arena.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\o2\utils\bytes.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\o2\utils\arena.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\o2\utils\bytes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
