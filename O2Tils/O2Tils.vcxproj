@@ -153,9 +153,11 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\o2\utils\arena.cpp" />
+    <ClCompile Include="src\o2\utils\bytes.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\o2\utils\arena.h" />
+    <ClInclude Include="include\o2\utils\bytes.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

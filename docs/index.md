@@ -10,6 +10,7 @@ The docs come in two parts:
 ## Concepts
 
 1. [Arenas](concepts/arenas.md): what an arena is, which memory fits one, and what happens when one runs out
+2. [Bytes](concepts/bytes.md): turning numbers and strings into bytes for messages and files, little-endian on every CPU, and reading them back safely
 
 ## Reference
 
@@ -24,3 +25,14 @@ The docs come in two parts:
 | [pushArray](reference/pushArray.md) | Takes room for an array from an arena |
 | [pushAligned](reference/pushAligned.md) | Takes bytes from an arena, starting at an aligned address |
 | [pushArrayAligned](reference/pushArrayAligned.md) | Takes room for an array from an arena, starting at an aligned address |
+
+### Bytes (`<o2/utils/bytes.h>`, namespace `o2::utils::bytes`)
+
+| | |
+|---|---|
+| [Writer](reference/Writer.md) | Writes values into a buffer you provide; also `makeWriter` |
+| [writeU32LE](reference/writeU32LE.md) | Writes a number, little-endian; also every other number write, from `writeU8` to `writeF64LE` |
+| [writeBytes](reference/writeBytes.md) | Writes bytes as they are; also `writeStringLE` |
+| [Reader](reference/Reader.md) | Reads values from a buffer; also `makeReader`, `getRemaining` |
+| [readU32LE](reference/readU32LE.md) | Reads a number, little-endian; also every other number read, from `readU8` to `readF64LE` |
+| [readBytes](reference/readBytes.md) | Reads bytes as they are, without copying; also `readStringLE` |
