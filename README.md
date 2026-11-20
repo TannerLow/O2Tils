@@ -9,7 +9,7 @@ It depends on nothing but the C and C++ runtime, so any library can pull it in w
 | Utility | Header | Namespace | What it is |
 |---|---|---|---|
 | Arena | `<o2/utils/arena.h>` | `o2::utils::arena` | A linear allocator over a block of memory you provide. Returns `NULL` when it runs out. |
-| Bytes | `<o2/utils/bytes.h>` | `o2::utils::bytes` | Numbers and strings packed into a byte buffer and read back, little-endian on every CPU, for messages and files. Never reads or writes past the end. |
+| Bytes | `<o2/utils/bytes.h>` | `o2::utils::bytes` | Numbers and strings turned into bytes and back, little-endian on every CPU, for messages and files. Never reads or writes past the end. |
 
 Every utility lives in `O2Tils/include/o2/utils/` and `O2Tils/src/o2/utils/`, in its own namespace under `o2::utils`. The full documentation is in [docs/](docs/index.md).
 

@@ -2,10 +2,10 @@
 #include <stddef.h>
 #include <stdint.h>
 
-// Bytes: numbers and strings packed into a byte buffer, and read back, in
-// little-endian byte order (lowest byte first) on every CPU. For network
-// messages and files, which must mean the same on every machine. Functions
-// ending in LE use little-endian order; 8-bit values have no byte order.
+// Bytes: numbers and strings turned into bytes in a fixed order, and back
+// again, for network messages and files, which must mean the same on every
+// machine. Multi-byte numbers are little-endian (lowest byte first) on every
+// CPU; functions ending in LE use that order. 8-bit values have no order.
 //
 // Writer and Reader never go past the end of their buffer. When something
 // doesn't fit, they set failed, and do nothing from then on, so a whole
@@ -36,7 +36,8 @@ namespace bytes {
     float readF32LE(const uint8_t* bytes);
     double readF64LE(const uint8_t* bytes);
 
-    // Writes into a buffer you provide, front to back.
+    // Writes values one after another into a buffer you provide, such as the
+    // array a message is sent from.
     struct Writer {
         uint8_t* bytes;
         size_t capacity; // the buffer's size
@@ -75,7 +76,10 @@ namespace bytes {
         size_t length
     );
 
-    // Reads from a buffer, front to back.
+    // Reads values one after another from bytes you already have, such as a
+    // received message. Not a buffer: just a position and a size over that
+    // memory. Nothing is copied into it; each read turns bytes straight into
+    // the value it returns.
     struct Reader {
         const uint8_t* bytes;
         size_t size;     // the buffer's size

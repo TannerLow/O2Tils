@@ -2,11 +2,18 @@
 
 [Index](../index.md)
 
-## Why numbers need packing
+## What it does
 
-A network message or a file is a row of bytes. A number in memory is too, but which byte comes first depends on the CPU: x86 and ARM store the lowest byte first (little-endian), some other CPUs the highest first (big-endian). Copying a number's memory straight into a message would mean different things on different machines, and copying a struct also copies padding the compiler added.
+A network message or a file is a row of bytes, and both ends have to agree on what each byte means. The bytes utility turns numbers and strings into bytes in an order fixed by the utility, not by the CPU, and turns those bytes back into numbers and strings.
 
-The bytes utility writes each value byte by byte, in one fixed order, **little-endian**, whatever the CPU. A message written on one machine reads back the same on any other, and a server in another language reads it with that language's little-endian tools, such as Python's `struct.unpack("<I", ...)`.
+## Why not copy the memory
+
+A number in memory is already bytes, so it's tempting to copy them straight into a message, or to copy a whole struct with `memcpy`. Two things go wrong:
+
+- **Byte order depends on the CPU.** A `uint32_t` holding 1 is stored as `01 00 00 00` on x86 and ARM, which put the lowest byte first (little-endian), but as `00 00 00 01` on CPUs that put the highest first (big-endian). The same bytes would mean 1 to one machine and 16,777,216 to the other
+- **A struct has gaps.** The compiler adds padding between fields to align them, and how much depends on the compiler and the platform. A Python server, for example, doesn't know where the gaps are
+
+So the bytes utility writes each value by itself, byte by byte, in one fixed order, **little-endian**, whatever the CPU: 1 is always `01 00 00 00`. A message written on one machine reads back the same on any other, and a server in another language reads it with that language's little-endian tools, such as Python's `struct.unpack("<I", ...)`.
 
 Every function that writes or reads a multi-byte number says so in its name: `writeU32LE`, `readF32LE`. Single bytes (`writeU8`, `readI8`) have no order, so no `LE`.
 
@@ -22,7 +29,7 @@ o2::utils::bytes::writeU16LE(header, messageType);
 o2::utils::bytes::writeU32LE(header + 2, messageSize);
 ```
 
-**With a [Writer](../reference/Writer.md)**, to pack a whole message into a buffer you provide, one value after another:
+**With a [Writer](../reference/Writer.md)**, to write a whole message into a buffer you provide, one value after another:
 
 ```cpp
 uint8_t buffer[256];
@@ -35,7 +42,7 @@ if (!writer.failed) {
 }
 ```
 
-**With a [Reader](../reference/Reader.md)**, to unpack one:
+**With a [Reader](../reference/Reader.md)**, to read one back:
 
 ```cpp
 o2::utils::bytes::Reader reader = o2::utils::bytes::makeReader(message.data, message.size);
@@ -47,6 +54,22 @@ if (reader.failed) {
     // The message was shorter than it should be: ignore it
 }
 ```
+
+## No extra copies
+
+A Writer or Reader adds no buffer of its own.
+
+**A Reader** is only a position and a size over bytes you already have, such as a received message's data. Each read turns bytes from there straight into the value it returns, so reading a score message into a struct is one step per field, with nothing copied in between:
+
+```cpp
+o2::utils::bytes::Reader reader = o2::utils::bytes::makeReader(message.data, message.size);
+score.chartId = o2::utils::bytes::readU32LE(&reader);
+score.points = o2::utils::bytes::readU32LE(&reader);
+```
+
+What it adds over reading at fixed offsets, such as `readU32LE(message.data + 4)`, is keeping track of where the next value starts, and checking the message is long enough, so the program doesn't have to.
+
+**A Writer** writes into memory you provide, such as the array a message is sent from. That array is the message, ready to send; the Writer just keeps track of where the next value goes, and that it fits.
 
 ## Checking once, at the end
 

@@ -2,7 +2,7 @@
 
 [Index](../index.md)
 
-Reads values from a buffer, front to back. Also covers `makeReader` and `getRemaining`.
+Reads values one after another from bytes you already have, such as a received message. Also covers `makeReader` and `getRemaining`.
 
 ```cpp
 struct Reader {
@@ -42,6 +42,8 @@ size_t getRemaining(const Reader* reader);
 `getRemaining`: bytes left to read, `size - position`; 0 once the reader has failed.
 
 ## Remarks
+
+A Reader isn't a buffer: it's a position and a size over memory you already have. Nothing is copied into it; each read turns bytes from that memory straight into the value it returns.
 
 Read from it with [readU32LE and the other number reads](readU32LE.md), [readBytes](readBytes.md) and [readStringLE](readBytes.md), in the order the values were written.
 

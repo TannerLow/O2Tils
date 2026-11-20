@@ -2,7 +2,7 @@
 
 [Index](../index.md)
 
-Writes values into a buffer you provide, front to back. Also covers `makeWriter`.
+Writes values one after another into a buffer you provide, such as the array a message is sent from. Also covers `makeWriter`.
 
 ```cpp
 struct Writer {

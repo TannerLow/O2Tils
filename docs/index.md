@@ -10,7 +10,7 @@ The docs come in two parts:
 ## Concepts
 
 1. [Arenas](concepts/arenas.md): what an arena is, which memory fits one, and what happens when one runs out
-2. [Bytes](concepts/bytes.md): packing numbers and strings for messages and files, little-endian on every CPU, and reading them back safely
+2. [Bytes](concepts/bytes.md): turning numbers and strings into bytes for messages and files, little-endian on every CPU, and reading them back safely
 
 ## Reference
 
